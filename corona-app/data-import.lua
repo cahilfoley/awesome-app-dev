@@ -1,10 +1,9 @@
-local json = require("vendor.dkjson")-- one-time load of the routines
+local json = require("vendor.dkjson")
 
 function dataImport()
   -- Read the JSON file as a string
   local fileData = io.open('../data/country.json', 'rb')
   local jsonString = fileData:read('*all')
-  -- print(jsonString)
 
   -- Convert the JSON string to a table
   local importedData = json.decode(jsonString, 1, nil)
@@ -12,16 +11,17 @@ function dataImport()
   local output = {}
 
   for name, country in pairs(importedData) do
-    -- print(name .. ': ' .. country['1'])
-    -- print('Flag file: ' .. name .. '-01.png')
-    output[name] = {
+    -- Make a table for the specific country
+    local countryTable = {
       name = name,
       score = country['1'],
       flag = name .. '-01.png'
     }
+
+    -- Add the country to the output table
+    output[name] = countryTable
   end
 
-  -- print(json.encode(output, { indent = true }))
   return output
 end
 
