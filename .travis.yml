@@ -12,7 +12,7 @@ env:
     - LUA=luajit     # latest stable version (2.0.4)
     - LUA=luajit2.0  # current head of 2.0 branch
     - LUA=luajit2.1  # current head of 2.1 branch
-# 
+#
 # branches:
 #   only:
 #     - master
@@ -22,7 +22,7 @@ before_install:
   - luarocks install busted
 
 install:
-  - luarocks make rockspecs/aad-0.1.0.rockspec CFLAGS="-O2 -fPIC -ftest-coverage -fprofile-arcs" LIBFLAG="-shared"
+  - luarocks make rockspecs/aad-scm-0.rockspec CFLAGS="-O2 -fPIC -ftest-coverage -fprofile-arcs" LIBFLAG="-shared"
 
 script:
   - cd corona-app
