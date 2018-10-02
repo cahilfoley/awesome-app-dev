@@ -1,4 +1,4 @@
-package = 'awesome-app-dev'
+package = 'aad'
 version = 'scm-0'
 
 source = {
