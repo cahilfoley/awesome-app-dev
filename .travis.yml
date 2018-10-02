@@ -21,8 +21,8 @@ before_install:
   - source .travis/setenv_lua.sh
   - luarocks install busted
 
-# install:
-#   - luarocks make rockspecs/foo-scm-0.rockspec CFLAGS="-O2 -fPIC -ftest-coverage -fprofile-arcs" LIBFLAG="-shared --coverage"
+install:
+  - luarocks make rockspecs/aad-0.1.0.rockspec CFLAGS="-O2 -fPIC -ftest-coverage -fprofile-arcs" LIBFLAG="-shared"
 
 script:
   - cd corona-app
