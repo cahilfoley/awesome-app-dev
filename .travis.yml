@@ -1,32 +1,8 @@
 language: c
-
-sudo: false
-
-env:
-  - LUA=lua5.3 LUAROCKS=2.3.0
-  # global:
-  #   - LUAROCKS=2.3.0
-  # matrix:
-  #   - LUA=lua5.1
-  #   - LUA=lua5.2
-  #   - LUA=lua5.3
-
-#
-# branches:
-#   only:
-#     - master
-
+cache: ccache
 before_install:
   - source .travis/setenv_lua.sh
   - luarocks install busted
-
 script: cd corona-app && busted
-
-# after_success:
-#   - coveralls -b .. -r .. -i ./src --dump c.report.json
-#   - luacov-coveralls -j c.report.json -v
-
 notifications:
-  email:
-    on_success: change
-    on_failure: always
+  email: false
