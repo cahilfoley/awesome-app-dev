@@ -1,0 +1,8 @@
+language: c
+cache: ccache
+before_install:
+  - source .travis/setenv_lua.sh
+  - luarocks install busted
+script: cd corona-app && busted
+notifications:
+  email: false
