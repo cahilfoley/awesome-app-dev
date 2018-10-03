@@ -1,11 +1,10 @@
 function printTable(value)
   local s = "{"
-  local sep = ""
   for key, val in pairs(value) do
-    s = s .. key .. ': ' .. val .. e
-    sep = ", "
+    if type(val) == 'string' then val = '"' .. val .. '"' end
+    s = s .. "\n  " .. key .. ': ' .. val .. ","
   end
-  return s .. "}"
+  print(s .. "\n}")
 end
 
 return printTable
