@@ -6,6 +6,7 @@
 
 local composer = require("composer")
 local createScrollView = require("scrolling-list")
+local pairsByKey = require "utils.pairs-by-key"
 
 local scene = composer.newScene()
 
@@ -19,12 +20,7 @@ function scene:create(event)
   -- INSERT code here to initialize the scene
   -- e.g. add display objects to 'sceneGroup', add touch listeners, etc.
 
-  -- create a white background to fill screen
-  -- local background =
-  -- display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
-  -- background:setFillColor(1) -- white
-
-  -- create some text
+  -- List title
   local title = display.newText("Country List", display.contentCenterX, 40, 'Roboto', 32)
   title:setFillColor(0) -- black
 
@@ -32,9 +28,11 @@ function scene:create(event)
 
   local listItems = {}
   local index = 0
-  for name, country in pairs(event.params.countries) do
+  for name, country in pairsByKey(event.params.countries) do
     local top = 80 + itemHeight / 2 + index * itemHeight
     local item = display.newGroup()
+
+    -- Background for the list item
     local bg = display.newRect(
       display.contentCenterX,
       top,
@@ -44,17 +42,31 @@ function scene:create(event)
     bg:setFillColor(0.87)
     item:insert(bg)
 
+    -- Insert flag image to left side of list item
     local flag = display.newImageRect(country.flag, 100, 80)
     flag.x = 60
     flag.y = top
     item:insert(flag)
+
+    -- Name of the country
+    local name = display.newText({
+      x = display.contentWidth / 2 + 60,
+      y = top + 45,
+      width = display.contentWidth - 140,
+      height = 140,
+      font = 'Roboto', fontSize = 24,
+      align = "left",
+      text = name,
+      color
+    })
+    name:setFillColor(0)
+    item:insert(name)
 
     scrollView:insert(item)
     index = index + 1
   end
 
   -- all objects must be added to group (e.g. self.view)
-  -- scrollView:insert(background)
   scrollView:insert(title)
 
   sceneGroup:insert(scrollView)
