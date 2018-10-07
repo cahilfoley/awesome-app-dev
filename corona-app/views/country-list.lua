@@ -5,70 +5,62 @@
 -----------------------------------------------------------------------------------------
 
 local composer = require("composer")
+local createPageHeader = require("utils.create-page-header")
 local createScrollView = require("utils.create-scroll-view")
-local pairsByKey = require "utils.pairs-by-key"
+local pairsByKey = require("utils.pairs-by-key")
 
 local scene = composer.newScene()
 
-local itemHeight = 100
+local itemHeight = 120
 
 function scene:create(event)
   local sceneGroup = self.view
 
   -- Called when the scene's view does not exist.
-  --
 
-  -- List title
-  local title = display.newText("Country List", display.contentCenterX, 80, 'Roboto', 32)
-  title:setFillColor(0) -- black
-
+  -- List scrolling display
   local scrollView = createScrollView()
 
-  local listItems = {}
   local index = 0
   for name, country in pairsByKey(event.params.countries) do
-    local top = title.y + 40 + itemHeight / 2 + index * itemHeight
-    local item = display.newGroup()
+    local item = display.newContainer(display.contentWidth, itemHeight + 10)
 
     -- Background for the list item
-    local bg = display.newRoundedRect(
-      display.contentCenterX,
-      top,
-      display.contentWidth - 10,
-      itemHeight - 5,
-      5
-    )
-    bg:setFillColor(0.87)
+    local bgShadow = display.newRoundedRect(3, 3, display.contentWidth - 20, itemHeight, 7)
+    bgShadow:setFillColor(0)
+    bgShadow.alpha = 0.3
+    item:insert(bgShadow)
+
+    local bg = display.newRoundedRect(0, 0, display.contentWidth - 20, itemHeight, 5)
+    bg:setFillColor(1)
     item:insert(bg)
 
     -- Insert flag image to left side of list item
-    local flag = display.newImageRect(country.flag, 100, 80)
-    flag.x = 60
-    flag.y = top
+    local flag = display.newImageRect(item, country.flag, 100, 100)
+    flag.x = -display.contentCenterX + 70
+    flag.y = 0
     item:insert(flag)
 
     -- Name of the country
     local name = display.newText({
       alpha = 0.82,
-      x = display.contentWidth / 2 + 60,
-      y = top + 45,
-      width = display.contentWidth - 140,
-      height = 140,
-      font = 'Roboto', fontSize = 24,
+      x = 60,
+      y = 0,
+      width = display.contentWidth - 140, height = 0,
+      font = 'Roboto',
+      fontSize = 24,
       align = "left",
-      text = name,
-      color
+      text = name
     })
     name:setFillColor(0)
     item:insert(name)
 
+    item:translate(display.contentCenterX, itemHeight / 2 + index * (itemHeight + 10))
     scrollView:insert(item)
     index = index + 1
   end
 
   -- all objects must be added to group (e.g. self.view)
-  scrollView:insert(title)
-
   sceneGroup:insert(scrollView)
 end
 

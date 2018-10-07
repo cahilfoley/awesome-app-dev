@@ -4,20 +4,22 @@
 --
 -----------------------------------------------------------------------------------------
 
--- show default status bar (iOS)
-display.setStatusBar(display.DefaultStatusBar)
-
 -- include Corona's "widget" library
-local widget = require "widget"
-local composer = require "composer"
+local widget = require("widget")
+local composer = require("composer")
+local createPageHeader = require("utils.create-page-header")
 
 -- read the country data
-local dataImport = require "data-import"
-local pathForFile = system.pathForFile "data/country.json"
+local dataImport = require("data-import")
+local pathForFile = system.pathForFile("data/country.json")
 local countries = dataImport(pathForFile)
+
+-- Page title
+local title = createPageHeader("Country Ranker")
 
 -- event listeners for tab buttons:
 local function onFirstView(event)
+  title:updateTitle("All Countries")
   composer.gotoScene(
     "views.country-list",
     {
@@ -29,6 +31,7 @@ local function onFirstView(event)
 end
 
 local function onSecondView(event)
+  title:updateTitle("Second View")
   composer.gotoScene("views.view2")
 end
 
@@ -60,8 +63,12 @@ local tabBar = widget.newTabBar {
   top = display.contentHeight - 52, -- 52 is default height for tabBar widget
   buttons = tabButtons
 }
+
 -- hidden while showing the intro animation
 tabBar.isVisible = false
+title.isVisible = false
+
+-- onFirstView()
 
 -- load the intro-animation scene
 composer.gotoScene(
@@ -78,6 +85,7 @@ composer.gotoScene(
           }
         )
         tabBar.isVisible = true
+        title.isVisible = true
       end
     }
   }
