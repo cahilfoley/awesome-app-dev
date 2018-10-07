@@ -3,12 +3,13 @@
 Awesome App Dev Elite Mega Pro Hackers
 
 ## Contents
-  * [Installation](#installation)
-  * [Testing](#testing)
-     * [Test Scripts](#test-scripts)
-     * [Running Tests](#running-tests)
-     * [CI Tests](#ci-tests)
-  * [Loading Data](#loading-data)
+
+- [Installation](#installation)
+- [Testing](#testing)
+  - [Test Scripts](#test-scripts)
+  - [Running Tests](#running-tests)
+  - [CI Tests](#ci-tests)
+- [Loading Data](#loading-data)
 
 ## Installation
 
@@ -21,9 +22,11 @@ After luarocks is installed open a terminal and run the command `luarocks instal
 ## Testing
 
 ### Test Scripts
+
 All of the unit tests in this project live in the `./corona-app/spec/` directory and must have a name ending in `_spec.lua` (e.g. `data-import_spec.lua`).
 
 ### Running Tests
+
 To run the tests, first make sure that you have the busted library installed, [instructions here](#Installation), then:
 
 ```
@@ -41,9 +44,11 @@ This project uses the [Travis CI](https://travis-ci.org/) service to automatical
 
 To load country data in the application use the following code.
 
+**In a unit test**
+
 ```lua
 local dataImport = require("data-import")
-local countries = dataImport()
+local countries = dataImport("data/country.json")
 
 --[[
   Countries is a table of country tables, each contains the following
@@ -51,6 +56,15 @@ local countries = dataImport()
       country.score (eg 34)
       country.flag (eg 'Afghanistan-01.png')
 ]]--
+```
+
+**In Corona**
+
+```lua
+local dataImport = require("data-import")
+local countries = dataImport(system.pathForFile("data/country.json"))
+
+-- Same data as above example
 ```
 
 ### Printing Tables
