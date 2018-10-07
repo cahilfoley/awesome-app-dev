@@ -1,5 +1,7 @@
 # awesome-app-dev
 
+[![Build Status](https://travis-ci.org/cahilfoley/awesome-app-dev.svg?branch=develop)](https://travis-ci.org/cahilfoley/awesome-app-dev)
+
 Awesome App Dev Elite Mega Pro Hackers
 
 ## Contents
