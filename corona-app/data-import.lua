@@ -1,6 +1,4 @@
 local json = require("vendor.dkjson")
-local printTable = require('utils.print-table')
-local pathForFile = system.pathForFile("data/country.json")
 
 local excludes = {
   'Belize',
@@ -32,7 +30,7 @@ function isExcluded(name)
   return false
 end
 
-function dataImport()
+function dataImport(pathForFile)
   -- Read the JSON file as a string
   local fileData = io.open(pathForFile, 'rb')
   local jsonString = fileData:read('*all')
