@@ -2,7 +2,7 @@ require("busted")
 local dataImport = require("data-import")
 
 describe("Testing the data-import function #dataImport", function()
-  local countries = dataImport()
+  local countries = dataImport("data/country.json")
 
   it("should have the right number of countries", function()
     -- There are 113 countries in the data file
@@ -12,7 +12,11 @@ describe("Testing the data-import function #dataImport", function()
       totalItems = totalItems + 1
     end
 
-    assert.are.same(totalItems, 113)
+    -- If all countries had flags it would be 113
+    -- assert.are.same(totalItems, 113)
+
+    -- 93 countries have flags and are included
+    assert.are.same(totalItems, 93)
   end)
 
   describe("Contains values for the country Afghanistan", function()
@@ -27,7 +31,7 @@ describe("Testing the data-import function #dataImport", function()
     end)
 
     it("should countain the country flag file name", function()
-      assert.are.same(afghanistan.flag, 'Afghanistan-01.png')
+      assert.are.same(afghanistan.flag, 'data/flags/Afghanistan-01.png')
     end)
   end)
 end)

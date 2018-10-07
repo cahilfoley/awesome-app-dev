@@ -13,7 +13,8 @@ local composer = require "composer"
 
 -- read the country data
 local dataImport = require "data-import"
-local countries = dataImport()
+local pathForFile = system.pathForFile "data/country.json"
+local countries = dataImport(pathForFile)
 
 -- event listeners for tab buttons:
 local function onFirstView(event)
