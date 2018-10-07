@@ -1,16 +1,11 @@
 -----------------------------------------------------------------------------------------
 --
--- view2.lua
+-- views/view2.lua
 --
 -----------------------------------------------------------------------------------------
 
 local composer = require("composer")
-local createScrollView = require("scrolling-list")
-local pairsByKey = require "utils.pairs-by-key"
-
 local scene = composer.newScene()
-
-local itemHeight = 100
 
 function scene:create(event)
   local sceneGroup = self.view
@@ -20,56 +15,36 @@ function scene:create(event)
   -- INSERT code here to initialize the scene
   -- e.g. add display objects to 'sceneGroup', add touch listeners, etc.
 
-  -- List title
-  local title = display.newText("Country List", display.contentCenterX, 40, 'Roboto', 32)
+  -- create a white background to fill screen
+  local background = display.newRect(
+    display.contentCenterX,
+    display.contentCenterY,
+    display.contentWidth,
+    display.contentHeight
+  )
+  background:setFillColor(1) -- white
+
+  -- create some text
+  local title = display.newText("Second View", display.contentCenterX, 125, native.systemFont, 32)
   title:setFillColor(0) -- black
 
-  local scrollView = createScrollView()
-
-  local listItems = {}
-  local index = 0
-  for name, country in pairsByKey(event.params.countries) do
-    local top = 80 + itemHeight / 2 + index * itemHeight
-    local item = display.newGroup()
-
-    -- Background for the list item
-    local bg = display.newRect(
-      display.contentCenterX,
-      top,
-      display.contentWidth - 10,
-      itemHeight - 5
-    )
-    bg:setFillColor(0.87)
-    item:insert(bg)
-
-    -- Insert flag image to left side of list item
-    local flag = display.newImageRect(country.flag, 100, 80)
-    flag.x = 60
-    flag.y = top
-    item:insert(flag)
-
-    -- Name of the country
-    local name = display.newText({
-      x = display.contentWidth / 2 + 60,
-      y = top + 45,
-      width = display.contentWidth - 140,
-      height = 140,
-      font = 'Roboto', fontSize = 24,
-      align = "left",
-      text = name,
-      color
-    })
-    name:setFillColor(0)
-    item:insert(name)
-
-    scrollView:insert(item)
-    index = index + 1
-  end
+  local newTextParams = {
+    text = 'Loaded by the second tab\'s\n"onPress" listener\nspecified in the \'tabButtons\' table',
+    x = display.contentCenterX,
+    y = title.y + 215,
+    width = 310,
+    height = 310,
+    font = native.systemFont,
+    fontSize = 14,
+    align = "center"
+  }
+  local summary = display.newText(newTextParams)
+  summary:setFillColor(0) -- black
 
   -- all objects must be added to group (e.g. self.view)
-  scrollView:insert(title)
-
-  sceneGroup:insert(scrollView)
+  sceneGroup:insert(background)
+  sceneGroup:insert(title)
+  sceneGroup:insert(summary)
 end
 
 function scene:show(event)

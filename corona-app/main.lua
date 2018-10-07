@@ -17,18 +17,9 @@ local countries = dataImport()
 
 -- event listeners for tab buttons:
 local function onFirstView(event)
-  composer.gotoScene("view1", {
-    effect = 'fade',
-    time = 100
-  })
-end
-
-local function onSecondView(event)
   composer.gotoScene(
-    "view2",
+    "views.country-list",
     {
-      effect = 'fade',
-      time = 100,
       params = {
         countries = countries
       }
@@ -36,16 +27,35 @@ local function onSecondView(event)
   )
 end
 
+local function onSecondView(event)
+  composer.gotoScene("views.view2")
+end
+
 -- create a tabBar widget with two buttons at the bottom of the screen
 
 -- table to setup buttons
 local tabButtons = {
-  { label = "First", defaultFile = "button.png", overFile = "button-down.png", width = 32, height = 32, onPress = onFirstView, selected = true },
-  { label = "Second", defaultFile = "button.png", overFile = "button-down.png", width = 32, height = 32, onPress = onSecondView },
+  {
+    label = "All Countries",
+    defaultFile = "button.png",
+    overFile = "button-down.png",
+    width = 32,
+    height = 32,
+    onPress = onFirstView,
+    selected = true
+  },
+  {
+    label = "Second",
+    defaultFile = "button.png",
+    overFile = "button-down.png",
+    width = 32,
+    height = 32,
+    onPress = onSecondView
+  }
 }
 
 -- create the actual tabBar widget
-local tabBar = widget.newTabBar{
+local tabBar = widget.newTabBar {
   top = display.contentHeight - 52, -- 52 is default height for tabBar widget
   buttons = tabButtons
 }
@@ -58,8 +68,15 @@ composer.gotoScene(
   {
     params = {
       load = function()
+        composer.gotoScene(
+          "views.country-list",
+          {
+            params = {
+              countries = countries
+            }
+          }
+        )
         tabBar.isVisible = true
-        onFirstView()
       end
     }
   }
