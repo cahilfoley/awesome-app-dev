@@ -5,22 +5,38 @@
 -----------------------------------------------------------------------------------------
 
 -- show default status bar (iOS)
-display.setStatusBar( display.DefaultStatusBar )
+display.setStatusBar(display.DefaultStatusBar)
 
 -- include Corona's "widget" library
 local widget = require "widget"
 local composer = require "composer"
 
+-- read the country data
+local dataImport = require "data-import"
+local countries = dataImport()
+
 -- event listeners for tab buttons:
-local function onFirstView( event )
-  composer.gotoScene( "view1" )
+local function onFirstView(event)
+  composer.gotoScene("view1", {
+    effect = 'fade',
+    time = 100
+  })
 end
 
-local function onSecondView( event )
-  composer.gotoScene( "view2" )
+local function onSecondView(event)
+  composer.gotoScene(
+    "view2",
+    {
+      effect = 'fade',
+      time = 100,
+      params = {
+        countries = countries
+      }
+    }
+  )
 end
 
---[[ Create a tabBar widget with two buttons at the bottom of the screen ]]
+-- create a tabBar widget with two buttons at the bottom of the screen
 
 -- table to setup buttons
 local tabButtons = {
