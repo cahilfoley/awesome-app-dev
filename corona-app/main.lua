@@ -18,18 +18,9 @@ local countries = dataImport(pathForFile)
 
 -- event listeners for tab buttons:
 local function onFirstView(event)
-  composer.gotoScene("view1", {
-    effect = 'fade',
-    time = 100
-  })
-end
-
-local function onSecondView(event)
   composer.gotoScene(
-    "view2",
+    "views.country-list",
     {
-      effect = 'fade',
-      time = 100,
       params = {
         countries = countries
       }
@@ -37,33 +28,57 @@ local function onSecondView(event)
   )
 end
 
+local function onSecondView(event)
+  composer.gotoScene("views.view2")
+end
+
 -- create a tabBar widget with two buttons at the bottom of the screen
 
 -- table to setup buttons
 local tabButtons = {
   {
-    label = "First",
-    defaultFile = "button1.png",
-    overFile = "button1-down.png",
+    label = "All Countries",
+    defaultFile = "button.png",
+    overFile = "button-down.png",
     width = 32,
     height = 32,
-    onPress = onFirstView
+    onPress = onFirstView,
+    selected = true
   },
   {
     label = "Second",
-    defaultFile = "button2.png",
-    overFile = "button2-down.png",
+    defaultFile = "button.png",
+    overFile = "button-down.png",
     width = 32,
     height = 32,
-    onPress = onSecondView,
-    selected = true
+    onPress = onSecondView
   }
 }
 
 -- create the actual tabBar widget
 local tabBar = widget.newTabBar {
-  top = display.contentHeight - 50, -- 50 is default height for tabBar widget
+  top = display.contentHeight - 52, -- 52 is default height for tabBar widget
   buttons = tabButtons
 }
+-- hidden while showing the intro animation
+tabBar.isVisible = false
 
-onSecondView() -- invoke first tab button's onPress event manually
+-- load the intro-animation scene
+composer.gotoScene(
+  "views.intro-animation",
+  {
+    params = {
+      load = function()
+        composer.gotoScene(
+          "views.country-list",
+          {
+            params = {
+              countries = countries
+            }
+          }
+        )
+        tabBar.isVisible = true
+      end
+    }
+  }
+)
