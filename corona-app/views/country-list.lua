@@ -9,6 +9,11 @@ local createPageHeader = require("utils.create-page-header")
 local createScrollView = require("utils.create-scroll-view")
 local pairsByKey = require("utils.pairs-by-key")
 
+-- read the country data
+local dataImport = require("data-import")
+local pathForFile = system.pathForFile("data/country.json")
+local countries = dataImport(pathForFile)
+
 local scene = composer.newScene()
 
 local itemHeight = 120
@@ -83,6 +88,7 @@ function scene:hide(event)
   local phase = event.phase
 
   if event.phase == "will" then
+    -- self.searchBox:removeSelf()
     -- Called when the scene is on screen and is about to move off screen
     --
     -- INSERT code here to pause the scene
