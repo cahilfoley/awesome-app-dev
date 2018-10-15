@@ -17,6 +17,20 @@ local countries = dataImport(pathForFile)
 -- Page title
 local title = createPageHeader("Country Ranker")
 
+local function onCountryDetails(country)
+  composer.removeScene("views.country-details")
+  title:showMenuButton()
+  title:updateTitle("Country Details")
+  composer.gotoScene(
+    "views.country-details",
+    {
+      params = {
+        country = country
+      }
+    }
+  )
+end
+
 -- event listeners for tab buttons:
 local function onFirstView(event)
   title:showMenuButton()
@@ -25,7 +39,8 @@ local function onFirstView(event)
     "views.country-list",
     {
       params = {
-        countries = countries
+        countries = countries,
+        selectCountry = onCountryDetails
       }
     }
   )
@@ -40,39 +55,39 @@ end
 -- create a tabBar widget with two buttons at the bottom of the screen
 
 -- table to setup buttons
-local tabButtons = {
-  {
-    label = "All Countries",
-    defaultFile = "button.png",
-    overFile = "button-down.png",
-    width = 32,
-    height = 32,
-    onPress = onFirstView,
-    selected = true
-  },
-  {
-    label = "Second",
-    defaultFile = "button.png",
-    overFile = "button-down.png",
-    width = 32,
-    height = 32,
-    onPress = onSecondView
-  }
-}
+-- local tabButtons = {
+--   {
+--     label = "All Countries",
+--     defaultFile = "button.png",
+--     overFile = "button-down.png",
+--     width = 32,
+--     height = 32,
+--     onPress = onFirstView,
+--     selected = true
+--   },
+--   {
+--     label = "Second",
+--     defaultFile = "button.png",
+--     overFile = "button-down.png",
+--     width = 32,
+--     height = 32,
+--     onPress = onSecondView
+--   }
+-- }
 
 -- create the actual tabBar widget
-local tabBar = widget.newTabBar({
-  top = display.contentHeight - 52, -- 52 is default height for tabBar widget
-  buttons = tabButtons
-})
+-- local tabBar = widget.newTabBar({
+--   top = display.contentHeight - 52, -- 52 is default height for tabBar widget
+--   buttons = tabButtons
+-- })
 
 local function goToMenu(event)
-  tabBar.isVisible = false
+  -- tabBar.isVisible = false
   title:updateTitle("Menu")
   composer.gotoScene("views.menu", {
     params = {
     loadCountryList = function()
-      tabBar.isVisible = true
+      -- tabBar.isVisible = true
       onFirstView()
     end
   }
@@ -82,30 +97,32 @@ end
 title:registerMenuHandler(goToMenu)
 
 -- hidden while showing the intro animation
-tabBar.isVisible = false
-title.isVisible = false
+-- tabBar.isVisible = false
+-- title.isVisible = false
 
 -- preload the country-list scene
-composer.loadScene("views.country-list", {
-  params = {
-    countries = countries
-  }
-})
+-- composer.loadScene("views.country-list", {
+-- params = {
+-- countries = countries
+-- }
+-- })
+
+onCountryDetails(countries.Australia)
 
 -- load the intro-animation scene
-composer.gotoScene("views.intro-animation", {
-  params = {
-    load = function()
-      composer.gotoScene(
-        "views.country-list",
-        {
-          params = {
-            countries = countries
-          }
-        }
-      )
-      tabBar.isVisible = true
-      title.isVisible = true
-    end
-  }
-})
+-- composer.gotoScene("views.intro-animation", {
+--   params = {
+--     load = function()
+--       composer.gotoScene(
+--         "views.country-list",
+--         {
+--           params = {
+--             countries = countries
+--           }
+--         }
+--       )
+--       tabBar.isVisible = true
+--       title.isVisible = true
+--     end
+--   }
+-- })
