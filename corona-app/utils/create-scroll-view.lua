@@ -9,30 +9,24 @@ local function scrollListener(event)
   --   elseif "down" == direction then print ("Reached Bottom Limit")
   --   end
   -- end
+  print(event.phase)
   return true
 end
 
 local function createScrollView()
-  local scrollView = widget.newScrollView {
+  local scrollView = widget.newScrollView({
+    backgroundColor = {.87,.87,.87},
     left = 0,
-    top = 0,
+    top = 100,
     width = display.contentWidth,
     height = display.contentheight,
-    -- topPadding = 50,
+    topPadding = 10,
     bottomPadding = 50,
     horizontalScollDisabled = true,
-    verticalScollDisabled = true,
     listener = scrollListener,
-  }
+  })
 
   return scrollView
 end
 
 return createScrollView
-
--- local lotsOfText = "Afghanire Cartier"
--- local lotsOfTextObject = display.newText( lotsOfText, 0, 0, 300, 0, "Helvetica", 14)
--- lotsOfTextObject:setTextColor(0)
--- lotsOfTextObject.x = display.contentCenterX
---
--- scrollView:insert(lotsOfTextObject)

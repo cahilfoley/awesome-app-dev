@@ -24,14 +24,10 @@ function scene:create(event)
   )
   background:setFillColor(1) -- white
 
-  -- create some text
-  local title = display.newText("Second View", display.contentCenterX, 125, native.systemFont, 32)
-  title:setFillColor(0) -- black
-
   local newTextParams = {
     text = 'Loaded by the second tab\'s\n"onPress" listener\nspecified in the \'tabButtons\' table',
     x = display.contentCenterX,
-    y = title.y + 215,
+    y = display.contentCenterY,
     width = 310,
     height = 310,
     font = native.systemFont,
@@ -40,10 +36,8 @@ function scene:create(event)
   }
   local summary = display.newText(newTextParams)
   summary:setFillColor(0) -- black
-
   -- all objects must be added to group (e.g. self.view)
   sceneGroup:insert(background)
-  sceneGroup:insert(title)
   sceneGroup:insert(summary)
 end
 
