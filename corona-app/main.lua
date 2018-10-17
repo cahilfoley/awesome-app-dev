@@ -73,14 +73,7 @@ composer.gotoScene(
   {
     params = {
       load = function()
-        composer.gotoScene(
-          "views.country-list",
-          {
-            params = {
-              countries = countries
-            }
-          }
-        )
+        loadCountryList()
         title.isVisible = true
       end
     }
