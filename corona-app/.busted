@@ -2,7 +2,7 @@ return {
   default = {
     verbose = true
   },
-  dataImport = {
-    tags = "dataImport"
+  countryImport = {
+    tags = "countryImport"
   }
 }

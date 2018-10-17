@@ -27,11 +27,17 @@ function scene:create(event)
   -- Assign "self.view" to local variable "sceneGroup" for easy reference
   local sceneGroup = self.view
 
-  local background = display.newImageRect("background.png", display.viewableContentHeight * 3, display.viewableContentWidth * 3)
+  local background =
+    display.newImageRect(
+    "background.png",
+    display.viewableContentHeight * 3,
+    display.viewableContentWidth * 3
+  )
   background.x = display.contentCenterX
   background.y = display.contentCenterY
 
-  local loading = display.newText(
+  local loading =
+    display.newText(
     {
       alpha = 0.8,
       text = "Tap to start",
@@ -46,9 +52,11 @@ function scene:create(event)
   )
   loading:setFillColor(1)
 
-  local globeSheet = graphics.newImageSheet("globe-sprite.png", {width = 450, height = 450, numFrames = 72})
+  local globeSheet =
+    graphics.newImageSheet("globe-sprite.png", {width = 450, height = 450, numFrames = 72})
 
-  local globeSprite = display.newSprite(globeSheet, {name = "earth", start = 1, count = 72, time = 3000})
+  local globeSprite =
+    display.newSprite(globeSheet, {name = "earth", start = 1, count = 72, time = 3000})
   globeSprite.x = display.contentCenterX
   globeSprite.y = display.contentCenterY
   local scale = display.contentWidth / 450
@@ -73,7 +81,7 @@ function scene:show(event)
   if (phase == "will") then
     -- Code here runs when the scene is still off screen (but is about to come on screen)
   elseif (phase == "did") then
-    -- Code here runs when the scene is entirely on screen
+  -- Code here runs when the scene is entirely on screen
   end
 end
 
@@ -85,7 +93,7 @@ function scene:hide(event)
   if (phase == "will") then
     -- Code here runs when the scene is on screen (but is about to go off screen)
   elseif (phase == "did") then
-    -- Code here runs immediately after the scene goes entirely off screen
+  -- Code here runs immediately after the scene goes entirely off screen
   end
 end
 

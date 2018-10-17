@@ -49,8 +49,8 @@ To load country data in the application use the following code.
 **In a unit test**
 
 ```lua
-local dataImport = require("data-import")
-local countries = dataImport("data/country.json")
+local countryImport = require("utils.country-import")
+local countries = countryImport("data/country.json")
 
 --[[
   Countries is a table of country tables, each contains the following
@@ -63,8 +63,8 @@ local countries = dataImport("data/country.json")
 **In Corona**
 
 ```lua
-local dataImport = require("data-import")
-local countries = dataImport(system.pathForFile("data/country.json"))
+local countryImport = require("utils.country-import")
+local countries = countryImport(system.pathForFile("data/country.json"))
 
 -- Same data as above example
 ```

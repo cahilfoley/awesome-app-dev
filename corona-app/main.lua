@@ -4,15 +4,14 @@
 --
 -----------------------------------------------------------------------------------------
 
--- include Corona's "widget" library
 local widget = require("widget")
 local composer = require("composer")
 local createPageHeader = require("utils.create-page-header")
 
 -- read the country data
-local dataImport = require("data-import")
+local countryImport = require("utils.country-import")
 local pathForFile = system.pathForFile("data/country.json")
-local countries = dataImport(pathForFile)
+local countries = countryImport(pathForFile)
 
 -- Page title
 local title = createPageHeader("Country Ranker")
@@ -31,98 +30,59 @@ local function onCountryDetails(country)
   )
 end
 
--- event listeners for tab buttons:
-local function onFirstView(event)
+local function onCountrySearch()
+  composer.gotoScene("views.country-search")
+end
+
+local function loadCountryList(filteredCountries)
   title:showMenuButton()
-  title:updateTitle("All Countries")
+  if filteredCountries == nil then
+    title:updateTitle("All Countries")
+  else
+    title:updateTitle("Search Results")
+  end
+  composer.removeScene("views.country-list")
   composer.gotoScene(
     "views.country-list",
     {
       params = {
-        countries = countries,
+        countries = filteredCountries or countries,
         selectCountry = onCountryDetails
       }
     }
   )
 end
 
-local function onSecondView(event)
-  title:showMenuButton()
-  title:updateTitle("Second View")
-  composer.gotoScene("views.view2")
-end
-
--- create a tabBar widget with two buttons at the bottom of the screen
-
--- table to setup buttons
--- local tabButtons = {
---   {
---     label = "All Countries",
---     defaultFile = "button.png",
---     overFile = "button-down.png",
---     width = 32,
---     height = 32,
---     onPress = onFirstView,
---     selected = true
---   },
---   {
---     label = "Second",
---     defaultFile = "button.png",
---     overFile = "button-down.png",
---     width = 32,
---     height = 32,
---     onPress = onSecondView
---   }
--- }
-
--- create the actual tabBar widget
--- local tabBar = widget.newTabBar({
---   top = display.contentHeight - 52, -- 52 is default height for tabBar widget
---   buttons = tabButtons
--- })
-
 local function goToMenu(event)
-  -- tabBar.isVisible = false
   title:updateTitle("Menu")
-  composer.gotoScene("views.menu", {
-    params = {
-    loadCountryList = function()
-      -- tabBar.isVisible = true
-      onFirstView()
-    end
-  }
-})
+  composer.gotoScene("views.menu", {params = {loadCountryList = loadCountryList}})
 end
 
 title:registerMenuHandler(goToMenu)
 
 -- hidden while showing the intro animation
--- tabBar.isVisible = false
--- title.isVisible = false
+title.isVisible = false
 
--- preload the country-list scene
--- composer.loadScene("views.country-list", {
--- params = {
--- countries = countries
--- }
--- })
-
-onCountryDetails(countries.Australia)
+-- onCountryDetails(countries.Australia)
+-- onCountrySearch()
+-- goToMenu()
 
 -- load the intro-animation scene
--- composer.gotoScene("views.intro-animation", {
---   params = {
---     load = function()
---       composer.gotoScene(
---         "views.country-list",
---         {
---           params = {
---             countries = countries
---           }
---         }
---       )
---       tabBar.isVisible = true
---       title.isVisible = true
---     end
---   }
--- })
+composer.gotoScene(
+  "views.intro-animation",
+  {
+    params = {
+      load = function()
+        composer.gotoScene(
+          "views.country-list",
+          {
+            params = {
+              countries = countries
+            }
+          }
+        )
+        title.isVisible = true
+      end
+    }
+  }
+)

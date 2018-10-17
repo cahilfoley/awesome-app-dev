@@ -9,16 +9,9 @@ local createButton = require("utils.create-button")
 local createPageHeader = require("utils.create-page-header")
 local createScrollView = require("utils.create-scroll-view")
 local pairsByKey = require("utils.pairs-by-key")
+local sections = require("data.sections")
 
 local scene = composer.newScene()
-
-local sections = {
-  { title = "Government Accountability", score = 2, values = { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 } },
-  { title = "Absence of Corruption", score = 13, values = { 14, 15, 16, 17 } },
-  { title = "Fundamental Rights", score = 18, values = { 18, 19, 20, 21, 22, 23, 24, 25 } },
-  { title = "Public Order and Security", score = 27, values = { 28, 29, 30 } },
-  { title = "Civil and Criminal Justice", score = 31, values = { 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45 } },
-}
 
 function scene:create(event)
   local sceneGroup = self.view
@@ -35,17 +28,21 @@ function scene:create(event)
 
   scrollView:insert(countryFlag)
 
-  local countryName = display.newText({
-    alpha = 0.82,
-    x = display.contentWidth / 2 + 60,
-    y = 60,
-    width = display.contentWidth - 20 - 100, height = 0,
-    font = "fonts/Roboto-Medium",
-    fontSize = 28,
-    fontWeight = "bold",
-    align = "left",
-    text = country.name .. "\nOverall Score: " .. country.score
-  })
+  local countryName =
+    display.newText(
+    {
+      alpha = 0.82,
+      x = display.contentWidth / 2 + 60,
+      y = 60,
+      width = display.contentWidth - 20 - 100,
+      height = 0,
+      font = "fonts/Roboto-Medium",
+      fontSize = 28,
+      fontWeight = "bold",
+      align = "left",
+      text = country.name .. "\nOverall Score: " .. country.score
+    }
+  )
   countryName:setFillColor(0)
 
   scrollView:insert(countryName)
@@ -53,11 +50,18 @@ function scene:create(event)
   local top = 180
 
   for index, section in pairs(sections) do
-
-    local button = createButton(section.title .. " (" .. country.details[''..section.score] .. ")", function()
-      composer.removeScene("views.section-details")
-      composer.gotoScene("views.section-details", { params = { country = country, section = section } })
-    end, true)
+    local button =
+      createButton(
+      section.title .. " (" .. country.details["" .. section.score] .. ")",
+      function()
+        composer.removeScene("views.section-details")
+        composer.gotoScene(
+          "views.section-details",
+          {params = {country = country, section = section}}
+        )
+      end,
+      true
+    )
 
     button.x = display.contentCenterX
     button.y = top
@@ -78,10 +82,10 @@ function scene:show(event)
   if phase == "will" then
     -- Called when the scene is still off screen and is about to move on screen
   elseif phase == "did" then
-    -- Called when the scene is now on screen
-    --
-    -- INSERT code here to make the scene come alive
-    -- e.g. start timers, begin animation, play audio, etc.
+  -- Called when the scene is now on screen
+  --
+  -- INSERT code here to make the scene come alive
+  -- e.g. start timers, begin animation, play audio, etc.
   end
 end
 
@@ -96,7 +100,7 @@ function scene:hide(event)
     -- INSERT code here to pause the scene
     -- e.g. stop timers, stop animation, unload sounds, etc.)
   elseif phase == "did" then
-    -- Called when the scene is now off screen
+  -- Called when the scene is now off screen
   end
 end
 

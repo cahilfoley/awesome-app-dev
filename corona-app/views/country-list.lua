@@ -10,9 +10,9 @@ local createScrollView = require("utils.create-scroll-view")
 local pairsByKey = require("utils.pairs-by-key")
 
 -- read the country data
-local dataImport = require("data-import")
+local countryImport = require("utils.country-import")
 local pathForFile = system.pathForFile("data/country.json")
-local countries = dataImport(pathForFile)
+local countries = countryImport(pathForFile)
 
 local scene = composer.newScene()
 
@@ -47,27 +47,36 @@ function scene:create(event)
     item:insert(flag)
 
     -- Name of the country
-    local name = display.newText({
-      alpha = 0.82,
-      x = 60,
-      y = 0,
-      width = display.contentWidth - 140, height = 0,
-      font = 'Roboto',
-      fontSize = 24,
-      align = "left",
-      text = name
-    })
+    local name =
+      display.newText(
+      {
+        alpha = 0.82,
+        x = 60,
+        y = 0,
+        width = display.contentWidth - 140,
+        height = 0,
+        font = "Roboto",
+        fontSize = 24,
+        align = "left",
+        text = name
+      }
+    )
     name:setFillColor(0)
     item:insert(name)
 
-    item:addEventListener("tap", function()
-      event.params.selectCountry(country)
-    end)
+    item:addEventListener(
+      "tap",
+      function()
+        event.params.selectCountry(country)
+      end
+    )
 
     item:translate(display.contentCenterX, itemHeight / 2 + index * (itemHeight + 10))
     scrollView:insert(item)
     index = index + 1
   end
+
+  self.scrollView = scrollView
 
   -- all objects must be added to group (e.g. self.view)
   sceneGroup:insert(scrollView)
@@ -80,10 +89,10 @@ function scene:show(event)
   if phase == "will" then
     -- Called when the scene is still off screen and is about to move on screen
   elseif phase == "did" then
-    -- Called when the scene is now on screen
-    --
-    -- INSERT code here to make the scene come alive
-    -- e.g. start timers, begin animation, play audio, etc.
+  -- Called when the scene is now on screen
+  --
+  -- INSERT code here to make the scene come alive
+  -- e.g. start timers, begin animation, play audio, etc.
   end
 end
 
@@ -98,12 +107,14 @@ function scene:hide(event)
     -- INSERT code here to pause the scene
     -- e.g. stop timers, stop animation, unload sounds, etc.)
   elseif phase == "did" then
-    -- Called when the scene is now off screen
+  -- Called when the scene is now off screen
   end
 end
 
 function scene:destroy(event)
   local sceneGroup = self.view
+
+  self.scrollView:removeSelf()
 
   -- Called prior to the removal of scene's "view" (sceneGroup)
   --
