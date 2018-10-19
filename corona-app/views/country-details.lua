@@ -1,72 +1,70 @@
 -----------------------------------------------------------------------------------------
 --
--- views/country-list.lua
+-- views/country-details.lua
 --
 -----------------------------------------------------------------------------------------
 
 local composer = require("composer")
+local createButton = require("utils.create-button")
 local createPageHeader = require("utils.create-page-header")
 local createScrollView = require("utils.create-scroll-view")
 local pairsByKey = require("utils.pairs-by-key")
 
--- read the country data
-local dataImport = require("data-import")
-local pathForFile = system.pathForFile("data/country.json")
-local countries = dataImport(pathForFile)
-
 local scene = composer.newScene()
 
-local itemHeight = 120
+local sections = {
+  { title = "Government Accountability", score = 2, values = { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 } },
+  { title = "Absence of Corruption", score = 13, values = { 14, 15, 16, 17 } },
+  { title = "Fundamental Rights", score = 18, values = { 18, 19, 20, 21, 22, 23, 24, 25 } },
+  { title = "Public Order and Security", score = 27, values = { 28, 29, 30 } },
+  { title = "Civil and Criminal Justice", score = 31, values = { 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45 } },
+}
 
 function scene:create(event)
   local sceneGroup = self.view
+  local country = event.params.country
 
   -- Called when the scene's view does not exist.
 
   -- List scrolling display
   local scrollView = createScrollView()
 
-  local index = 0
-  for name, country in pairsByKey(event.params.countries) do
-    local item = display.newContainer(display.contentWidth, itemHeight + 10)
+  local countryFlag = display.newImageRect(country.flag, 100, 100)
+  countryFlag.x = 60
+  countryFlag.y = 60
 
-    -- Background for the list item
-    local bgShadow = display.newRoundedRect(3, 3, display.contentWidth - 20, itemHeight, 7)
-    bgShadow:setFillColor(0)
-    bgShadow.alpha = 0.3
-    item:insert(bgShadow)
+  scrollView:insert(countryFlag)
 
-    local bg = display.newRoundedRect(0, 0, display.contentWidth - 20, itemHeight, 5)
-    bg:setFillColor(1)
-    item:insert(bg)
+  local countryName = display.newText({
+    alpha = 0.82,
+    x = display.contentWidth / 2 + 60,
+    y = 60,
+    width = display.contentWidth - 20 - 100, height = 0,
+    font = "fonts/Roboto-Medium",
+    fontSize = 28,
+    fontWeight = "bold",
+    align = "left",
+    text = country.name .. "\nOverall Score: " .. country.score
+  })
+  countryName:setFillColor(0)
 
-    -- Insert flag image to left side of list item
-    local flag = display.newImageRect(item, country.flag, 100, 100)
-    flag.x = -display.contentCenterX + 70
-    flag.y = 0
-    item:insert(flag)
+  scrollView:insert(countryName)
 
-    -- Name of the country
-    local name = display.newText({
-      alpha = 0.82,
-      x = 60,
-      y = 0,
-      width = display.contentWidth - 140, height = 0,
-      font = 'Roboto',
-      fontSize = 24,
-      align = "left",
-      text = name
-    })
-    name:setFillColor(0)
-    item:insert(name)
+  local top = 180
 
-    item:addEventListener("tap", function()
-      event.params.selectCountry(country)
-    end)
+  for index, section in pairs(sections) do
 
-    item:translate(display.contentCenterX, itemHeight / 2 + index * (itemHeight + 10))
-    scrollView:insert(item)
-    index = index + 1
+    local button = createButton(section.title .. " (" .. country.details[''..section.score] .. ")", function()
+      composer.removeScene("views.section-details")
+      composer.gotoScene("views.section-details", { params = { country = country, section = section } })
+    end, true)
+
+    button.x = display.contentCenterX
+    button.y = top
+
+    scrollView:insert(button)
+
+    top = top + 100
   end
 
   -- all objects must be added to group (e.g. self.view)

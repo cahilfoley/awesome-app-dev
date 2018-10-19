@@ -46,7 +46,8 @@ function dataImport(pathForFile)
       local countryTable = {
         name = name,
         score = country['1'],
-        flag = 'data/flags/' .. name .. '-01.png'
+        flag = 'data/flags/' .. name .. '-01.png',
+        details = country
       }
 
       -- Add the country to the output table
