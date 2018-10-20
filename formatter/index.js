@@ -1,31 +1,54 @@
+#!/usr/bin/env node
+const chokidar = require('chokidar')
 const fs = require('fs-extra')
-const path = require('path')
 const globSync = require('glob')
 const { formatText } = require('lua-fmt')
 const { promisify } = require('util')
 
-const root = path.join(__dirname, '../corona-app')
-
 const glob = promisify(globSync)
+const argv = require('yargs').argv
 
 const formatSettings = {
   lineWidth: 120,
   indentCount: 3,
   quotemark: 'double'
 }
+const globPattern = '../corona-app/**/*.lua'
 
-glob(root + '/**/*.lua')
-  .then(matches =>
-    matches.map(match =>
-      fs
-        .readFile(match, 'utf8')
-        .then(content => formatText(content, formatSettings))
-        // The formatter will stick function call assignments on a new line, move them back up
-        .then(content => content.replace(/(\s+=\s*\n+\s*)/gm, ' = '))
-        .then(output => fs.writeFile(match, output))
-        .catch(console.error)
-    )
-  )
-  .then(operations => Promise.all(operations))
+async function formatFile(path) {
+  try {
+    const content = await fs.readFile(path, 'utf8')
+
+    // Format the code with the lua-fmt library
+    const formattedText = formatText(content, formatSettings)
+
+    // The formatter will stick function call assignments on a new line, move them back up
+    const output = formattedText.replace(/(\s+=\s*\n+\s*)/gm, ' = ')
+
+    // Write the code back to the file
+    await fs.writeFile(path, output)
+  } catch (err) {
+    return Promise.reject(err)
+  }
+}
+
+glob(globPattern)
+  .then(matches => Promise.all(matches.map(formatFile)))
   .then(results => console.log(`Finished formatting ${results.length} files`))
   .catch(console.error)
+  .then(() => {
+    if (argv.watch) {
+      console.log('Entering watch mode')
+      const watcher = chokidar.watch('../corona-app/**/*.lua', { awaitWriteFinish: { stabilityThreshold: 300 } })
+
+      watcher.on('change', path => {
+        console.log(`File change detected: ${path}`)
+        // Don't want to fire a change event with the formatting, stop watching it
+        watcher.unwatch(path)
+        formatFile(path).then(() => {
+          // File has been formatted, start watching again
+          watcher.add(path)
+        })
+      })
+    }
+  })
