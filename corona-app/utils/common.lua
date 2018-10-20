@@ -4,11 +4,11 @@
 common = {}
 
 function common.round(val, n)
-  if (n) then
-    return math.floor((val * 10 ^ n) + 0.5) / (10 ^ n)
-  else
-    return math.floor(val + 0.5)
-  end
+   if (n) then
+      return math.floor((val * 10 ^ n) + 0.5) / (10 ^ n)
+   else
+      return math.floor(val + 0.5)
+   end
 end
 common.w = display.contentWidth
 common.h = display.contentHeight

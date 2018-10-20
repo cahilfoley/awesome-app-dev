@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "format": "node index"
+  },
   "dependencies": {
     "fs-extra": "^7.0.0",
     "glob": "^7.1.3",
