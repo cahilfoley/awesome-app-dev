@@ -6,12 +6,21 @@ Awesome App Dev Elite Mega Pro Hackers
 
 ## Contents
 
-- [Installation](#installation)
-- [Testing](#testing)
-  - [Test Scripts](#test-scripts)
-  - [Running Tests](#running-tests)
-  - [CI Tests](#ci-tests)
-- [Loading Data](#loading-data)
+<!-- toc -->
+
+- [Installation](#Installation)
+- [Testing](#Testing)
+  * [Test Scripts](#Test-Scripts)
+  * [Running Tests](#Running-Tests)
+  * [CI Tests](#CI-Tests)
+- [Scripts](#Scripts)
+  * [Importing Country Data](#Importing-Country-Data)
+  * [Printing Tables](#Printing-Tables)
+- [Code Formatting](#Code-Formatting)
+  * [Formatting Script](#Formatting-Script)
+    + [Usage](#Usage)
+
+<!-- tocstop -->
 
 ## Installation
 
@@ -49,8 +58,8 @@ To load country data in the application use the following code.
 **In a unit test**
 
 ```lua
-local dataImport = require("data-import")
-local countries = dataImport("data/country.json")
+local countryImport = require("utils.country-import")
+local countries = countryImport("data/country.json")
 
 --[[
   Countries is a table of country tables, each contains the following
@@ -63,8 +72,8 @@ local countries = dataImport("data/country.json")
 **In Corona**
 
 ```lua
-local dataImport = require("data-import")
-local countries = dataImport(system.pathForFile("data/country.json"))
+local countryImport = require("utils.country-import")
+local countries = countryImport(system.pathForFile("data/country.json"))
 
 -- Same data as above example
 ```
@@ -90,4 +99,32 @@ printTable({
     foo: "bar",
   }
 ]]--
+```
+
+## Code Formatting
+
+An `.editorconfig` file is provided with the formatting standards for this repository. To use these standards in the Atom text editor install the [editorconfig](https://github.com/sindresorhus/atom-editorconfig) package.
+
+### Formatting Script
+
+To assist with consistent formatting across the whole codebase a JS script is provided that will parse the whole lua codebase and apply the formatting rules. This script is in the [`./formatter`](./formatter/) directory.
+
+#### Usage
+
+To use the script you must first install Node.js (a JavaScript runtime) which can be downloaded from [this link](https://nodejs.org). After installing Node.js open a terminal in the formatter directory and run the following command to install the package dependencies.
+
+```bash
+npm install
+```
+
+Once the dependencies are installed you can run the formatter with this command.
+
+```bash
+npm run format
+```
+
+If you wish to run the formatter in watch mode (will re-run the formatter on file change) then run the `watch` command.
+
+```bash
+npm run watch
 ```

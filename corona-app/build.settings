@@ -3,55 +3,41 @@
 -- https://docs.coronalabs.com/guide/distribution/buildSettings
 --
 
-settings =
-{
-	orientation =
-	{
-		-- Supported values for orientation:
-		-- portrait, portraitUpsideDown, landscapeLeft, landscapeRight
-		default = "portrait",
-		supported = { "portrait", },
-	},
-
-	--
-	-- Android section
-	--
-	android =
-	{
-		usesPermissions =
-		{
-			"android.permission.INTERNET",
-		},
-	},
-
-	--
-	-- iOS section
-	--
-	iphone =
-	{
-		xcassets = "Images.xcassets",
-		plist =
-		{
-			UIStatusBarHidden = false,
-			UILaunchStoryboardName = "LaunchScreen",
-		},
-	},
-
-	--
-	-- Plugins section
-	--
-	plugins =
-	{
-
-	},
-
-	--
-	-- Project section
-	--
-	excludeFiles =
-	{
-		-- Exclude unnecessary files for each platform
-		all = { "Icon.png", "Icon-*dpi.png", "Images.xcassets", },
-		android = { "LaunchScreen.storyboardc", },
-	},
+settings = {
+  orientation = {
+    -- Supported values for orientation:
+    -- portrait, portraitUpsideDown, landscapeLeft, landscapeRight
+    default = "portrait",
+    supported = {"portrait"}
+  },
+  --
+  -- Android section
+  --
+  android = {
+    usesPermissions = {
+      "android.permission.INTERNET"
+    }
+  },
+  --
+  -- iOS section
+  --
+  iphone = {
+    xcassets = "Images.xcassets",
+    plist = {
+      UIStatusBarHidden = false,
+      UILaunchStoryboardName = "LaunchScreen"
+    }
+  },
+  --
+  -- Plugins section
+  --
+  plugins = {},
+  --
+  -- Project section
+  --
+  excludeFiles = {
+    -- Exclude unnecessary files for each platform
+    all = {"Icon.png", "Icon-*dpi.png", "Images.xcassets"},
+    android = {"LaunchScreen.storyboardc"}
+  }
 }

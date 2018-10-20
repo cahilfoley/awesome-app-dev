@@ -6,153 +6,153 @@
 
 local composer = require("composer")
 local widget = require("widget")
-local createButton = require("utils.create-button")
-local createPageHeader = require("utils.create-page-header")
+local com = require("utils.common")
 local createScrollView = require("utils.create-scroll-view")
-local pairsByKey = require("utils.pairs-by-key")
 
 local scene = composer.newScene()
 
 -- read the field data
-local fieldImport = require("field-import")
+local fieldImport = require("utils.field-import")
 local pathForFile = system.pathForFile("data/fields.json")
 local fields = fieldImport(pathForFile)
 
 function scene:create(event)
-  local sceneGroup = self.view
-  local country = event.params.country
-  local section = event.params.section
+   local sceneGroup = self.view
+   local country = event.params.country
+   local section = event.params.section
 
-  -- Called when the scene's view does not exist.
+   -- Called when the scene's view does not exist.
 
-  -- List scrolling display
-  local scrollView = createScrollView()
+   -- List scrolling display
+   local scrollView = createScrollView()
 
-  local countryFlag = display.newImageRect(country.flag, 100, 100)
-  countryFlag.x = 60
-  countryFlag.y = 60
+   local countryFlag = display.newImageRect(country.flag, 100, 100)
+   countryFlag.x = 60
+   countryFlag.y = 60
 
-  scrollView:insert(countryFlag)
+   scrollView:insert(countryFlag)
 
-  local countryName = display.newText({
-    alpha = 0.82,
-    x = display.contentWidth / 2 + 60,
-    y = 60,
-    width = display.contentWidth - 20 - 100, height = 0,
-    font = "fonts/Roboto-Medium",
-    fontSize = 28,
-    fontWeight = "bold",
-    align = "left",
-    text = country.name .. "\n" .. section.title .. " Score: " .. country.details[section.score .. ""]
-  })
-  countryName:setFillColor(0)
+   local countryName = display.newText(
+      {
+         alpha = 0.82,
+         x = com.w / 2 + 60,
+         y = 60,
+         width = com.w - 20 - 100,
+         height = 0,
+         font = "fonts/Roboto-Medium",
+         fontSize = 28,
+         fontWeight = "bold",
+         align = "left",
+         text = country.name .. "\n" .. section.title .. " Score: " .. country.details[section.score .. ""]
+      }
+   )
+   countryName:setFillColor(0)
 
-  scrollView:insert(countryName)
+   scrollView:insert(countryName)
 
-  local bgShadow = display.newRoundedRect(display.contentCenterX + 3, 183, display.contentWidth - 20, 60, 7)
-  bgShadow:setFillColor(0)
-  bgShadow.alpha = 0.3
-  scrollView:insert(bgShadow)
+   local bgShadow = display.newRoundedRect(com.centerX + 3, 183, com.w - 20, 60, 7)
+   bgShadow:setFillColor(0)
+   bgShadow.alpha = 0.3
+   scrollView:insert(bgShadow)
 
-  local background = display.newRoundedRect(display.contentCenterX, 150, display.contentWidth - 20, 60, 5)
-  background:setFillColor(1)
-  background.anchorY = 0
-  scrollView:insert(background)
+   local background = display.newRoundedRect(com.centerX, 150, com.w - 20, 60, 5)
+   background:setFillColor(1)
+   background.anchorY = 0
+   scrollView:insert(background)
 
-  local backArrow = widget.newButton({
-    defaultFile = "data/icons/back-icon.png",
-    width = 40,
-    height = 40
-  })
-  backArrow.x = 40
-  backArrow.y = 180
+   local backArrow = widget.newButton(
+      {
+         defaultFile = "data/icons/back-icon.png",
+         width = 40,
+         height = 40
+      }
+   )
+   backArrow.x = 40
+   backArrow.y = 180
 
-  backArrow:addEventListener("tap", function()
-    composer.gotoScene("views.country-details", { params = { country = country } } )
-  end)
+   backArrow:addEventListener(
+      "tap",
+      function()
+         composer.gotoScene("views.country-details", {params = {country = country}})
+      end
+   )
 
-  scrollView:insert(backArrow)
+   scrollView:insert(backArrow)
 
-  local detailsTitle = display.newText({
-    alpha = 0.82,
-    x = display.contentCenterX + 20,
-    y = 180,
-    width = display.contentWidth - 120,
-    height = 0,
-    font = "Roboto",
-    fontSize = 30,
-    align = "left",
-    text = "Breakdown"
-  })
-  detailsTitle:setFillColor(0)
+   local detailsTitle = display.newText(
+      {
+         alpha = 0.82,
+         x = com.centerX + 20,
+         y = 180,
+         width = com.w - 120,
+         height = 0,
+         font = "Roboto",
+         fontSize = 30,
+         align = "left",
+         text = "Breakdown"
+      }
+   )
+   detailsTitle:setFillColor(0)
 
-  scrollView:insert(detailsTitle)
+   scrollView:insert(detailsTitle)
 
-  local top = 225
+   local top = 225
 
-  local contentString = ''
+   local contentString = ""
 
-  for index, fieldIndex in pairs(section.values) do
-    contentString = contentString .. fields[fieldIndex .. ""] .. "\n"
-    contentString = contentString .. country.details[fieldIndex .. ""] .. "\n\n"
-  end
+   for index, fieldIndex in pairs(section.values) do
+      contentString = contentString .. fields[fieldIndex .. ""] .. "\n"
+      contentString = contentString .. country.details[fieldIndex .. ""] .. "\n\n"
+   end
 
-  local content = display.newText({
-    alpha = 0.82,
-    x = display.contentCenterX,
-    width = display.contentWidth - 40,
-    y = top,
-    height = 0,
-    font = "Roboto",
-    fontSize = 24,
-    align = "left",
-    text = contentString
-  })
-  content:setFillColor(0)
-  content.anchorY = 0
+   local content = display.newText(
+      {
+         alpha = 0.82,
+         x = com.centerX,
+         width = com.w - 40,
+         y = top,
+         height = 0,
+         font = "Roboto",
+         fontSize = 24,
+         align = "left",
+         text = contentString
+      }
+   )
+   content:setFillColor(0)
+   content.anchorY = 0
 
-  scrollView:insert(content)
+   scrollView:insert(content)
 
-  -- all objects must be added to group (e.g. self.view)
-  sceneGroup:insert(scrollView)
+   sceneGroup:insert(scrollView)
 end
 
 function scene:show(event)
-  local sceneGroup = self.view
-  local phase = event.phase
+   local sceneGroup = self.view
+   local phase = event.phase
 
-  if phase == "will" then
-    -- Called when the scene is still off screen and is about to move on screen
-  elseif phase == "did" then
-    -- Called when the scene is now on screen
-    --
-    -- INSERT code here to make the scene come alive
-    -- e.g. start timers, begin animation, play audio, etc.
-  end
+   if phase == "will" then
+      -- Called when the scene is still off screen and is about to move on screen
+   elseif phase == "did" then
+   -- Called when the scene is now on screen
+   end
 end
 
 function scene:hide(event)
-  local sceneGroup = self.view
-  local phase = event.phase
+   local sceneGroup = self.view
+   local phase = event.phase
 
-  if event.phase == "will" then
-    -- self.searchBox:removeSelf()
-    -- Called when the scene is on screen and is about to move off screen
-    --
-    -- INSERT code here to pause the scene
-    -- e.g. stop timers, stop animation, unload sounds, etc.)
-  elseif phase == "did" then
-    -- Called when the scene is now off screen
-  end
+   if event.phase == "will" then
+      -- self.searchBox:removeSelf()
+      -- Called when the scene is on screen and is about to move off screen
+   elseif phase == "did" then
+   -- Called when the scene is now off screen
+   end
 end
 
 function scene:destroy(event)
-  local sceneGroup = self.view
+   local sceneGroup = self.view
 
-  -- Called prior to the removal of scene's "view" (sceneGroup)
-  --
-  -- INSERT code here to cleanup the scene
-  -- e.g. remove display objects, remove touch listeners, save state, etc.
+   -- Called prior to the removal of scene's "view" (sceneGroup)
 end
 
 ---------------------------------------------------------------------------------
