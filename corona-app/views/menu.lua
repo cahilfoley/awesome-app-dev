@@ -35,27 +35,39 @@ function scene:create(event)
    top = top + 80
 
    -- Create the widget
-   local button = createButton(
+   local countryListButton = createButton(
       "Country List",
       function()
          event.params.loadCountryList()
       end
    )
-   button.x = com.centerX
-   button.y = top
-   sceneGroup:insert(button)
+   countryListButton.x = com.centerX
+   countryListButton.y = top
+   sceneGroup:insert(countryListButton)
 
    top = top + 100
 
-   local button2 = createButton(
+   local rankingButton = createButton(
       "Rankings",
       function()
          print("Ranking button pressed")
       end
    )
-   button2.x = com.centerX
-   button2.y = top
-   sceneGroup:insert(button2)
+   rankingButton.x = com.centerX
+   rankingButton.y = top
+   sceneGroup:insert(rankingButton)
+
+   top = top + 100
+
+   local userGuideButton = createButton(
+      "User Guide",
+      function()
+         event.params.loadUserGuide()
+      end
+   )
+   userGuideButton.x = com.centerX
+   userGuideButton.y = top
+   sceneGroup:insert(userGuideButton)
 
    top = top + 100
 
@@ -67,8 +79,6 @@ function scene:create(event)
    )
 
    self.search = search
-
-   -- sceneGroup:insert(button3)
 end
 
 function scene:show(event)
