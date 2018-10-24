@@ -25,8 +25,11 @@ async function formatFile(path) {
     // The formatter will stick function call assignments on a new line, move them back up
     const output = formattedText.replace(/(\s+=\s*\n+\s*)/gm, ' = ')
 
-    // Write the code back to the file
-    await fs.writeFile(path, output)
+    // Only update the file if the content has changed
+    if (content !== output) {
+      // Write the code back to the file
+      await fs.writeFile(path, output)
+    }
   } catch (err) {
     return Promise.reject(err)
   }

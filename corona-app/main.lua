@@ -53,9 +53,23 @@ local function loadCountryList(filteredCountries)
    )
 end
 
+local function loadUserGuide()
+   title:showMenuButton()
+   title:updateTitle("User Guide")
+   composer.gotoScene("views.user-guide")
+end
+
 local function goToMenu(event)
    title:updateTitle("Menu")
-   composer.gotoScene("views.menu", {params = {loadCountryList = loadCountryList}})
+   composer.gotoScene(
+      "views.menu",
+      {
+         params = {
+            loadCountryList = loadCountryList,
+            loadUserGuide = loadUserGuide
+         }
+      }
+   )
 end
 
 title:registerMenuHandler(goToMenu)
@@ -66,6 +80,7 @@ title.isVisible = false
 -- onCountryDetails(countries.Australia)
 -- onCountrySearch()
 -- goToMenu()
+-- composer.gotoScene("views.user-guide")
 
 -- load the intro-animation scene
 composer.gotoScene(
