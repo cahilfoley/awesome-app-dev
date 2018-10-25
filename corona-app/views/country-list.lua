@@ -71,23 +71,22 @@ function scene:create(event)
 
    -- There were no countries in the search results
    if index == 0 then
-     print("Showing the empty label")
-     local emptyLabel = display.newText(
-            {
-               alpha = 0.82,
-               x = com.centerX,
-               y = 120,
-               width = com.w - 20,
-               height = 0,
-               font = "Roboto",
-               fontSize = 32,
-               align = "center",
-               text = "No results"
-            }
-         )
-         emptyLabel:setFillColor(0)
+      local emptyLabel = display.newText(
+         {
+            alpha = 0.82,
+            x = com.centerX,
+            y = 120,
+            width = com.w - 20,
+            height = 0,
+            font = "Roboto",
+            fontSize = 32,
+            align = "center",
+            text = "No results"
+         }
+      )
+      emptyLabel:setFillColor(0)
 
-         scrollView:insert(emptyLabel, true)
+      scrollView:insert(emptyLabel, true)
    end
 
    self.scrollView = scrollView

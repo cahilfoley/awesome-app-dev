@@ -17,8 +17,6 @@ local scene = composer.newScene()
 function scene:create(event)
    local sceneGroup = self.view
 
-   -- Called when the scene's view does not exist.
-
    -- List scrolling display
    local scrollView = createScrollView()
 
@@ -29,9 +27,8 @@ function scene:create(event)
          y = 30,
          width = com.w - 20,
          height = 0,
-         font = "fonts/Roboto-Medium",
+         font = "fonts/Roboto",
          fontSize = 24,
-         fontWeight = "bold",
          align = "center",
          text = "Select Criteria to Order By"
       }
@@ -47,7 +44,7 @@ function scene:create(event)
          section.title,
          function()
             composer.removeScene("views.country-ranks")
-            composer.gotoScene("views.country-ranks", {params = {section = section}})
+            event.params.selectCriteria(section)
          end,
          true
       )
@@ -71,10 +68,10 @@ function scene:show(event)
    if phase == "will" then
       -- Called when the scene is still off screen and is about to move on screen
    elseif phase == "did" then
-   -- Called when the scene is now on screen
-   --
-   -- INSERT code here to make the scene come alive
-   -- e.g. start timers, begin animation, play audio, etc.
+      -- Called when the scene is now on screen
+      --
+      -- INSERT code here to make the scene come alive
+      -- e.g. start timers, begin animation, play audio, etc.
    end
 end
 
@@ -89,7 +86,7 @@ function scene:hide(event)
       -- INSERT code here to pause the scene
       -- e.g. stop timers, stop animation, unload sounds, etc.)
    elseif phase == "did" then
-   -- Called when the scene is now off screen
+      -- Called when the scene is now off screen
    end
 end
 
