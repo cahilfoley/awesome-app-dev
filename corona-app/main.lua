@@ -16,7 +16,7 @@ local countries = countryImport(pathForFile)
 -- Page title
 local title = createPageHeader("Country Ranker")
 
-local function onCountryDetails(country)
+local function loadCountryDetails(country)
    composer.removeScene("views.country-details")
    title:showMenuButton()
    title:updateTitle("Country Details")
@@ -28,10 +28,6 @@ local function onCountryDetails(country)
          }
       }
    )
-end
-
-local function onCountrySearch()
-   composer.gotoScene("views.country-search")
 end
 
 local function loadCountryList(filteredCountries)
@@ -47,10 +43,16 @@ local function loadCountryList(filteredCountries)
       {
          params = {
             countries = filteredCountries or countries,
-            selectCountry = onCountryDetails
+            selectCountry = loadCountryDetails
          }
       }
    )
+end
+
+local function loadCriteriaSelect()
+    title:showMenuButton()
+    title:updateTitle("Country Rankings")
+    composer.gotoScene("views.criteria-selection")
 end
 
 local function loadUserGuide()
@@ -66,6 +68,7 @@ local function goToMenu(event)
       {
          params = {
             loadCountryList = loadCountryList,
+            loadCriteriaSelect = loadCriteriaSelect,
             loadUserGuide = loadUserGuide
          }
       }
@@ -75,12 +78,13 @@ end
 title:registerMenuHandler(goToMenu)
 
 -- hidden while showing the intro animation
-title.isVisible = false
+-- title.isVisible = false
 
--- onCountryDetails(countries.Australia)
+-- loadCountryDetails(countries.Australia)
 -- onCountrySearch()
 -- goToMenu()
 -- composer.gotoScene("views.user-guide")
+-- loadCriteriaSelect()
 
 -- load the intro-animation scene
 composer.gotoScene(

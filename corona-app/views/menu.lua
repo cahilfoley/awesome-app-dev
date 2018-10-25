@@ -49,9 +49,7 @@ function scene:create(event)
 
    local rankingButton = createButton(
       "Rankings",
-      function()
-         print("Ranking button pressed")
-      end
+      event.params.loadCriteriaSelect
    )
    rankingButton.x = com.centerX
    rankingButton.y = top
@@ -61,9 +59,7 @@ function scene:create(event)
 
    local userGuideButton = createButton(
       "User Guide",
-      function()
-         event.params.loadUserGuide()
-      end
+       event.params.loadUserGuide
    )
    userGuideButton.x = com.centerX
    userGuideButton.y = top
