@@ -2,7 +2,7 @@ require("busted")
 local fieldImport = require("utils.field-import")
 
 describe(
-   "Testing the field-import function #fieldImport",
+   "Testing the field-import function #import",
    function()
       local fields = fieldImport("data/fields.json")
 
@@ -31,7 +31,7 @@ describe(
             )
 
             it(
-               "should countain the section 'Absence of Corruption' for item 13",
+               "should contain the section 'Absence of Corruption' for item 13",
                function()
                   assert.are.same(fields["13"], "Absence of Corruption")
                end

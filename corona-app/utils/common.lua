@@ -3,7 +3,7 @@
 --
 common = {}
 
-function common.round(val, n)
+function round(val, n)
    if (n) then
       return math.floor((val * 10 ^ n) + 0.5) / (10 ^ n)
    else
@@ -18,9 +18,9 @@ common.fullw = display.actualContentWidth
 common.fullh = display.actualContentHeight
 common.unusedWidth = common.fullw - common.w
 common.unusedHeight = common.fullh - common.h
-common.left = common.round(0 - common.unusedWidth / 2)
-common.top = common.round(0 - common.unusedHeight / 2)
-common.right = common.round(common.w + common.unusedWidth / 2)
-common.bottom = common.round(common.h + common.unusedHeight / 2)
+common.left = round(0 - common.unusedWidth / 2)
+common.top = round(0 - common.unusedHeight / 2)
+common.right = round(common.w + common.unusedWidth / 2)
+common.bottom = round(common.h + common.unusedHeight / 2)
 
 return common
