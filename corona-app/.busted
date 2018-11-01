@@ -1,0 +1,14 @@
+return {
+  default = {
+    verbose = true
+  },
+  import = {
+    tags = "import"
+  },
+  widget = {
+    tags = "widget"
+  },
+  utils = {
+    tags = "utils"
+  }
+}
