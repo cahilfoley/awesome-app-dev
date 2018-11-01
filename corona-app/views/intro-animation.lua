@@ -40,7 +40,7 @@ function scene:create(event)
          width = display.contentWidth,
          fontSize = 32,
          height = 100,
-         font = "Roboto",
+         font = "fonts/Roboto",
          align = "center"
       }
    )
