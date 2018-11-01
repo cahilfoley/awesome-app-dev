@@ -2,7 +2,7 @@ require("busted")
 local countryImport = require("utils.country-import")
 
 describe(
-   "Testing the data-import function #countryImport",
+   "Testing the country-import function #import",
    function()
       local countries = countryImport("data/country.json")
 

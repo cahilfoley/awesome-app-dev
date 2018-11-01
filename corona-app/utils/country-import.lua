@@ -1,5 +1,6 @@
 local json = require("vendor.dkjson")
 
+-- The following countries did not have a flag provided by the clients and are excluded from the application
 local excludes = {
    "Belize",
    "Cote d’Ivoire",
@@ -23,6 +24,7 @@ local excludes = {
    "Zimbabwe"
 }
 
+-- Tests if a country appears in the exclusion list by name
 function isExcluded(name)
    for index, exclusion in pairs(excludes) do
       if exclusion == name then
@@ -31,8 +33,14 @@ function isExcluded(name)
    end
    return false
 end
+--
 
-function countryImport(pathForFile)
+--[[
+   Reads the country.json file and parses the JSON data, returning a table of countries
+      @param {string} pathForFile - Path to the country.json file to read
+      @returns {table} countries - The table of countries, keyed by country name
+]] function countryImport(
+   pathForFile)
    -- Read the JSON file as a string
    local fileData = io.open(pathForFile, "rb")
    local jsonString = fileData:read("*all")

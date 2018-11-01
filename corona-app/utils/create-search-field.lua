@@ -1,14 +1,18 @@
-local com = require("utils.common")
---
-
 --[[
-  Accepts a table of 3 different event handlers
-    * onBegan() - User begins editing the field
-    * onSubmit(text) - Output resulting text from
-    * onChange(text) - Text value has changed
-]] local function createSearchField(
-   handlers,
-   placeholder)
+   Creates a text field for searching
+      @param {table} - A table of three different event handlers
+         * onBegan() - User begins editing the field
+         * onSubmit(text) - Output resulting text from
+         * onChange(text) - Text value has changed
+      @param {string} placeholder - A placeholder value when the field is empty
+      @param {table} [libs] - The libraries to use, if a library is not provided then it will be imported (for testing)
+      @return {TextField} - The native text field
+]]
+local function createSearchField(handlers, placeholder, libs)
+   local libs = libs or {}
+   local com = libs.com or require("utils.common")
+   local native = libs.native or native
+
    if placeholder == nil then
       placeholder = "Search"
    end

@@ -1,7 +1,7 @@
 --[[
    Returns an iterator through a table sorted by the key. An optional function can be passed to override the sort
    comparison function.
-]]--
+]] --
 function pairsByKey(inputTable, compare)
    local all = {}
    for key in pairs(inputTable) do

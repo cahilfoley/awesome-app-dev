@@ -3,6 +3,12 @@ return {
     verbose = true
   },
   import = {
-    tags = "countryImport"
+    tags = "import"
+  },
+  widget = {
+    tags = "widget"
+  },
+  utils = {
+    tags = "utils"
   }
 }
