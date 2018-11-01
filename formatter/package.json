@@ -1,0 +1,21 @@
+{
+  "name": "country-rankinator-formatter",
+  "description": "Provides a utility to format the lua code of the country-rankinator Corona application",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cahilfoley/awesome-app-dev"
+  },
+  "scripts": {
+    "format": "node index",
+    "watch": "node index --watch"
+  },
+  "dependencies": {
+    "chokidar": "^2.0.4",
+    "fs-extra": "^7.0.0",
+    "glob": "^7.1.3",
+    "lua-fmt": "^2.6.0",
+    "yargs": "^12.0.2"
+  }
+}

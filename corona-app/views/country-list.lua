@@ -5,116 +5,105 @@
 -----------------------------------------------------------------------------------------
 
 local composer = require("composer")
+local com = require("utils.common")
+local createPageHeader = require("utils.create-page-header")
 local createScrollView = require("utils.create-scroll-view")
-local pairsByKey = require "utils.pairs-by-key"
+local pairsByKey = require("utils.pairs-by-key")
 
 local scene = composer.newScene()
 
-local itemHeight = 100
+local itemHeight = 120
 
 function scene:create(event)
-  local sceneGroup = self.view
+   local sceneGroup = self.view
 
-  -- Called when the scene's view does not exist.
-  --
+   -- List scrolling display
+   local scrollView = createScrollView()
 
-  -- List title
-  local title = display.newText("Country List", display.contentCenterX, 80, 'Roboto', 32)
-  title:setFillColor(0) -- black
+   local index = 0
+   for name, country in pairsByKey(event.params.countries) do
+      local item = display.newContainer(display.contentWidth, itemHeight + 10)
 
-  local scrollView = createScrollView()
+      -- Background for the list item
+      local bgShadow = display.newRoundedRect(3, 3, com.w - 20, itemHeight, 7)
+      bgShadow:setFillColor(0)
+      bgShadow.alpha = 0.3
+      item:insert(bgShadow)
 
-  local listItems = {}
-  local index = 0
-  for name, country in pairsByKey(event.params.countries) do
-    local top = title.y + 40 + itemHeight / 2 + index * itemHeight
-    local item = display.newGroup()
+      local bg = display.newRoundedRect(0, 0, com.w - 20, itemHeight, 5)
+      bg:setFillColor(1)
+      item:insert(bg)
 
-    -- Background for the list item
-    local bg = display.newRoundedRect(
-      display.contentCenterX,
-      top,
-      display.contentWidth - 10,
-      itemHeight - 5,
-      5
-    )
-    bg:setFillColor(0.87)
-    item:insert(bg)
+      -- Insert flag image to left side of list item
+      local flag = display.newImageRect(item, country.flag, 100, 100)
+      flag.x = -com.centerX + 70
+      flag.y = 0
+      item:insert(flag)
 
-    -- Insert flag image to left side of list item
-    local flag = display.newImageRect(country.flag, 100, 80)
-    flag.x = 60
-    flag.y = top
-    item:insert(flag)
+      -- Name of the country
+      local name = display.newText(
+         {
+            alpha = 0.82,
+            x = 60,
+            y = 0,
+            width = com.w - 140,
+            height = 0,
+            font = "Roboto",
+            fontSize = 24,
+            align = "left",
+            text = name
+         }
+      )
+      name:setFillColor(0)
+      item:insert(name)
 
-    -- Name of the country
-    local name = display.newText({
-      alpha = 0.82,
-      x = display.contentWidth / 2 + 60,
-      y = top + 45,
-      width = display.contentWidth - 140,
-      height = 140,
-      font = 'Roboto', fontSize = 24,
-      align = "left",
-      text = name,
-      color
-    })
-    name:setFillColor(0)
-    item:insert(name)
+      item:addEventListener(
+         "tap",
+         function()
+            event.params.selectCountry(country)
+         end
+      )
 
-    scrollView:insert(item)
-    index = index + 1
-  end
+      item:translate(com.centerX, itemHeight / 2 + index * (itemHeight + 10))
+      scrollView:insert(item)
+      index = index + 1
+   end
 
-  -- all objects must be added to group (e.g. self.view)
-  scrollView:insert(title)
+   -- There were no countries in the search results
+   if index == 0 then
+      local emptyLabel = display.newText(
+         {
+            alpha = 0.82,
+            x = com.centerX,
+            y = 120,
+            width = com.w - 20,
+            height = 0,
+            font = "Roboto",
+            fontSize = 32,
+            align = "center",
+            text = "No results"
+         }
+      )
+      emptyLabel:setFillColor(0)
 
-  sceneGroup:insert(scrollView)
-end
+      scrollView:insert(emptyLabel, true)
+   end
 
-function scene:show(event)
-  local sceneGroup = self.view
-  local phase = event.phase
+   self.scrollView = scrollView
 
-  if phase == "will" then
-    -- Called when the scene is still off screen and is about to move on screen
-  elseif phase == "did" then
-    -- Called when the scene is now on screen
-    --
-    -- INSERT code here to make the scene come alive
-    -- e.g. start timers, begin animation, play audio, etc.
-  end
-end
-
-function scene:hide(event)
-  local sceneGroup = self.view
-  local phase = event.phase
-
-  if event.phase == "will" then
-    -- Called when the scene is on screen and is about to move off screen
-    --
-    -- INSERT code here to pause the scene
-    -- e.g. stop timers, stop animation, unload sounds, etc.)
-  elseif phase == "did" then
-    -- Called when the scene is now off screen
-  end
+   sceneGroup:insert(scrollView)
 end
 
 function scene:destroy(event)
-  local sceneGroup = self.view
+   local sceneGroup = self.view
 
-  -- Called prior to the removal of scene's "view" (sceneGroup)
-  --
-  -- INSERT code here to cleanup the scene
-  -- e.g. remove display objects, remove touch listeners, save state, etc.
+   self.scrollView:removeSelf()
 end
 
 ---------------------------------------------------------------------------------
 
 -- Listener setup
 scene:addEventListener("create", scene)
-scene:addEventListener("show", scene)
-scene:addEventListener("hide", scene)
 scene:addEventListener("destroy", scene)
 
 -----------------------------------------------------------------------------------------

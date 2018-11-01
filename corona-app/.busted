@@ -2,7 +2,13 @@ return {
   default = {
     verbose = true
   },
-  dataImport = {
-    tags = "dataImport"
+  import = {
+    tags = "import"
+  },
+  widget = {
+    tags = "widget"
+  },
+  utils = {
+    tags = "utils"
   }
 }
