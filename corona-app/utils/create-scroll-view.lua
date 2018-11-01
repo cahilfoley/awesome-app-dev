@@ -1,7 +1,13 @@
-local widget = require("widget")
-local com = require("utils.common")
+--[[
+   Creates a scrollview widget
+      @param {table} [libs] - The libraries to use, if a library is not provided then it will be imported (for testing)
+      @return {ScrollViewWidget} - A scroll view widget
+]] --
+local function createScrollView(libs)
+   local libs = libs or {}
+   local com = libs.com or require("utils.common")
+   local widget = libs.widget or require("widget")
 
-local function createScrollView()
    local scrollView = widget.newScrollView(
       {
          backgroundColor = {.87, .87, .87},

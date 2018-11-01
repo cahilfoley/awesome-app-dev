@@ -5,7 +5,7 @@
       @param {boolean} [small] - A flag to specify that the button should use a smaller font
       @param {table} [libs] - The libraries to use, if a library is not provided then it will be imported (for testing)
       @return {GroupObject} - A display group containing the button and associated elements
-]]--
+]] --
 function createButton(label, handler, small, libs)
    local libs = libs or {}
    local com = libs.com or require("utils.common")

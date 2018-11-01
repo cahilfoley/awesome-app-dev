@@ -47,20 +47,14 @@ function scene:create(event)
 
    top = top + 100
 
-   local rankingButton = createButton(
-      "Rankings",
-      event.params.loadCriteriaSelect
-   )
+   local rankingButton = createButton("Rankings", event.params.loadCriteriaSelect)
    rankingButton.x = com.centerX
    rankingButton.y = top
    sceneGroup:insert(rankingButton)
 
    top = top + 100
 
-   local userGuideButton = createButton(
-      "User Guide",
-       event.params.loadUserGuide
-   )
+   local userGuideButton = createButton("User Guide", event.params.loadUserGuide)
    userGuideButton.x = com.centerX
    userGuideButton.y = top
    sceneGroup:insert(userGuideButton)

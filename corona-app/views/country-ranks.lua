@@ -57,7 +57,12 @@ function scene:create(event)
    scrollView:insert(backArrow)
 
    local index = 0
-   for sortKey, country in pairsByKey(countries, function(a, b) return a > b end) do
+   for sortKey, country in pairsByKey(
+      countries,
+      function(a, b)
+         return a > b
+      end
+   ) do
       local item = display.newContainer(display.contentWidth, itemHeight + 10)
 
       -- Background for the list item
@@ -77,7 +82,7 @@ function scene:create(event)
       item:insert(flag)
 
       -- Name and score of the country
-      local countryScore = country.details[section.score..""]
+      local countryScore = country.details[section.score .. ""]
       local name = display.newText(
          {
             alpha = 0.82,
